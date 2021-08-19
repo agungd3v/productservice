@@ -34,6 +34,30 @@ const ProductController = {
         message: "Error: " + error
       })
     }
+  },
+  show: async (req, res) => {
+    try {
+      const { id } = req.body
+      const data = await product.findById(id)
+      const relatedProduct = await product.find({
+        name: {
+          $regex: `.*${data.name.split(' ')[0].toString()}.*`,
+          $options: 'i'
+        }
+      }).limit(4)
+      res.json({
+        status: true,
+        message: {
+          data,
+          related: relatedProduct
+        }
+      })
+    } catch (error) {
+      return res.json({
+        status: false,
+        message: "Error: " + error
+      })
+    }
   }
 }
 
