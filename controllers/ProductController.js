@@ -58,6 +58,49 @@ const ProductController = {
         message: "Error: " + error
       })
     }
+  },
+  update: async (req, res) => {
+    try {
+      const { id, data } = req.body
+      await product.findOneAndUpdate({_id: id}, data, {
+        new: true,
+        upsert: true
+      }, (err, scss) => {
+        if (err) return res.json({
+          status: false,
+          message: "Error: " + err
+        })
+        return res.json({
+          status: true,
+          message: scss
+        })
+      })
+    } catch (error) {
+      return res.json({
+        status: false,
+        message: "Error: " + error
+      })
+    }
+  },
+  delete: async (req, res) => {
+    try {
+      const { id } = req.body
+      await product.findOneAndDelete({_id: id}, (err) => {
+        if (err) return res.json({
+          status: false,
+          message: "Error: " + err
+        })
+        return res.json({
+          status: true,
+          message: "Success delete data"
+        })
+      })
+    } catch (error) {
+      return res.json({
+        status: false,
+        message: "Error: " + error
+      })
+    }
   }
 }
 

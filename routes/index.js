@@ -11,5 +11,7 @@ router.get('/', (req, res) => {
 router.get('/product', product.index)
 router.post('/product', product.store)
 router.post('/show', product.show)
+router.put('/productupdate', product.update)
+router.delete('/productdelete', product.delete)
 
 module.exports = router
